@@ -45,7 +45,6 @@ python Rolled_FP_generation.py --n_samples 4 --ddim_steps 50 --ddim_eta 0.5 --nu
 To ensure dataset quality, generated samples are filtered based on:
 *   **NFIQ 2.0 Score** > 0.55
 *   **Foreground Ratio** > 60%
-*   *Note:* The dataset is split 7:3 (Train/Val); the full set is used after optimal hyperparameter selection.
 
 ### 3. Ridge Enhancement (Sauvola)
 Generate binary ridge maps as the structural guidance for texture synthesis.
