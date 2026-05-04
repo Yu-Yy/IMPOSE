@@ -24,7 +24,7 @@ pip install opencv-python nfiq2
 
 ## 📂 Model Weights
 
-We provide pre-trained weights for the two primary stages of the IMPOSE pipeline.
+We provide pre-trained weights for the two primary stages of the IMPOSE pipeline. Please download the checkpoints from the links below and place them into the `models/` directory.
 
 | Model Stage | Function | Link |
 | :--- | :--- | :--- |
