@@ -28,8 +28,8 @@ We provide pre-trained weights for the two primary stages of the IMPOSE pipeline
 
 | Model Stage | Function | Link |
 | :--- | :--- | :--- |
-| **Rolled-Gen** | Master Identity Synthesis | [Download Checkpoint](#) |
-| **Cross-Modal** | Texture & Modality Synthesis | [Download Checkpoint](#) |
+| **Rolled-Gen** | Master Identity Synthesis | [Download Checkpoint](https://drive.google.com/drive/folders/1p6hCoPb1xrYsKLMbxDxQ6bPqnTmhKeVM?usp=sharing) |
+| **Cross-Modal** | Texture & Modality Synthesis | [Download Checkpoint](https://drive.google.com/drive/folders/1CNNgTiC0US60Lc-rSmOHJEKRF6aXxYPp?usp=sharing) |
 
 ---
 
