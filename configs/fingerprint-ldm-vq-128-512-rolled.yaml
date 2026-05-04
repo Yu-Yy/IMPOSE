@@ -1,0 +1,97 @@
+model:
+  base_learning_rate: 2e-5   # set to target_lr by starting main.py with '--scale_lr False'
+  target: ldm.models.diffusion.ddpm.LatentDiffusion
+  params:
+    linear_start: 0.0015
+    linear_end: 0.0155
+    num_timesteps_cond: 1
+    log_every_t: 200
+    timesteps: 1000
+    loss_type: l1
+    first_stage_key: "image"
+    cond_stage_key: "image" # no cond stage key
+    image_size: 128
+    channels: 3
+    cond_stage_trainable: False
+    concat_mode: False
+    scale_by_std: True
+    use_ema: True
+    monitor: 'val/loss_simple_ema'
+
+    scheduler_config: # 10000 warmup steps
+      target: ldm.lr_scheduler.LambdaLinearScheduler
+      params:
+        warm_up_steps: [500] # 10000
+        cycle_lengths: [1000000000000000]
+        f_start: [1.e-2] # It is the scalar
+        f_max: [1.]  #
+        f_min: [ 1.]
+
+    unet_config:
+      target: ldm.modules.diffusionmodules.openaimodel.UNetModel
+      params:  # 16 x 16 x 16
+        image_size: 128 # 
+        in_channels: 3 # embedding dim
+        out_channels: 3 # 
+        model_channels: 64 #
+        attention_resolutions: [ 32, 16, 8 ] # 32, 16, 8, 4
+        num_res_blocks: 2
+        channel_mult: [ 1,2,4 ]  # 32, 16, 8, 4, 2
+        num_heads: 8 # 
+        use_scale_shift_norm: True
+        resblock_updown: True
+
+    first_stage_config:
+      target: ldm.models.autoencoder.VQModelInterface
+      params:
+        embed_dim: 3
+        # ckpt_path: "models/fingerprint_rolled_autoencoder_512/model_ae_rolled.ckpt" 
+        n_embed: 4096
+        ddconfig:
+          double_z: False
+          z_channels: 3
+          resolution: 512
+          in_channels: 1
+          out_ch: 1
+          ch: 64
+          ch_mult: [1,2,4]  # num_down = len(ch_mult)-1
+          num_res_blocks: 2
+          attn_resolutions: [16]
+          dropout: 0.0
+        lossconfig:
+          target: torch.nn.Identity
+
+    cond_stage_config: "__is_unconditional__" # unconditional flags
+
+data:
+  target: main.DataModuleFromConfig
+  params:
+    batch_size: 6
+    wrap: False # False
+    num_workers: 5
+    train:
+      target: ldm.data.fingerprints_clean.RolledFingerTrain
+      params:
+        is_append: True
+        size: 512
+        scale: 1 
+    validation:
+      target: ldm.data.fingerprints_clean.RolledFingerVal
+      params:
+        is_append: True
+        size: 512
+        scale: 1 #
+
+lightning:
+  callbacks:
+    image_logger:
+      target: main.ImageLogger
+      params:
+        train_batch_frequency: 1000
+        valid_batch_frequency: 1000
+        max_images: 8
+        increase_log_steps: False # False
+
+  trainer:
+    benchmark: True
+    max_epochs: 100000
