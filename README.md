@@ -27,9 +27,14 @@
 Install the required packages:
 
 ```bash
-pip install torch torchvision  # CUDA-compatible version
 pip install numpy omegaconf Pillow opencv-python einops pytorch_lightning
 pip install scipy matplotlib scikit-learn scikit-image tqdm
+```
+
+The code has been tested with **PyTorch 2.0.0 + CUDA 11.8**. If you want to replicate the exact environment:
+
+```bash
+pip install torch==2.0.0 torchvision==0.15.1 --index-url https://download.pytorch.org/whl/cu118
 ```
 
 This project builds on the [Latent Diffusion Models](https://github.com/CompVis/latent-diffusion) framework and [taming-transformers](https://github.com/CompVis/taming-transformers) for VQ-VAE quantization. The relevant modules are already included under `ldm/`.
