@@ -142,7 +142,7 @@ def main():
     # process the input image
     opt.img_folder = os.path.abspath(opt.img_folder)
     image_paths = os.listdir(opt.img_folder)
-    sample_path = os.path.join(opt.outdir, 'contactless_veri_compare') 
+    sample_path = os.path.join(opt.outdir, 'contactless_texture') 
     os.makedirs(sample_path, exist_ok=True)
     for image_path in image_paths:
         # assert os.path.isfile(opt.init_img)

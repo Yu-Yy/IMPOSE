@@ -2,9 +2,7 @@
 
 ## 🔍 Overview
 
-**IMPOSE** is a comprehensive generative framework designed to bridge the gap between contact-based and contactless fingerprint modalities. It provides a systematic pipeline for synthesizing high-fidelity, identity-consistent contactless fingerprint datasets under diverse and complex acquisition conditions.
-
-As an essential component of our fingerprint research ecosystem, IMPOSE serves as a powerful tool for data augmentation, significantly enhancing the performance of dense representation frameworks in low-resource or cross-modal scenarios.
+**IMPOSE** is a comprehensive generative framework designed to bridge the gap between contact-based and contactless fingerprint modalities. It provides a systematic pipeline for synthesizing high-fidelity, identity-consistent contactless fingerprint datasets xxxx. 目前文章正在under review阶段。
 
 The framework integrates three core pillars:
 
@@ -17,14 +15,10 @@ The framework integrates three core pillars:
 ## 🛠 Environment Setup
 
 The environment requirements are identical to **Latent Diffusion Models (LDM)**. Please refer to the [official LDM repository](https://github.com/CompVis/latent-diffusion) for the complete list of dependencies and installation steps.
-<!-- ```bash
-# Recommendation: Follow LDM's setup, then install additional tools
-pip install opencv-python nfiq2
-``` -->
 
 ## 📂 Model Weights
 
-We provide pre-trained weights for the two primary stages of the IMPOSE pipeline. Please download the checkpoints from the links below and place them into the `models/` directory.
+We provide pre-trained weights for the two primary stages of the IMPOSE pipeline. Please download the checkpoints from the links below and Rolled-Gen 的权重放在 `models/fingerprint_ldm_rolled_512/` 文件夹下，Cross-Modal 的权重放在 `models/fingerprint_c2cl_512/` 文件夹下。
 
 | Model Stage | Function | Link |
 | :--- | :--- | :--- |
@@ -45,37 +39,37 @@ python Rolled_FP_generation.py --n_samples 4 --ddim_steps 50 --ddim_eta 0.5 --nu
 To ensure dataset quality, generated samples are filtered based on:
 *   **NFIQ 2.0 Score** > 0.55
 *   **Foreground Ratio** > 60%
+这里我们提供了几个筛选后的生成滚动指纹样例，保存在 `example/source_rolled` 文件夹中
 
 ### 3. Ridge Enhancement (Sauvola)
-Generate binary ridge maps as the structural guidance for texture synthesis.
+Generate binary ridge maps as the structural guidance for texture synthesis. 结果将保存在 `example/binary_enhancement` 文件夹中
 ```bash
 python sauvola_simulation_contact.py 
 ```
 
 ### 4. Cross-Modal Texture Generation
-Translate the binary structural maps into realistic contactless fingerprint images.
+Translate the binary structural maps into realistic contactless fingerprint images. 结果将保存在 `example/contactless_texture` 文件夹中
 ```bash
 python cross_modal_generation.py --img-folder example/binary_enhancement --ddim_steps 50
 ```
 
 ### 5. Multi-Pose Texture Mapping
-The final step maps the synthetic textures onto various poses to complete the contactless simulation.
+The final step maps the synthetic textures onto various poses to complete the contactless simulation. 我在example/finger3d 文件夹中提供了示例的3D指模数据
 ```bash
-python pose_mapping_generation.py 
+python multi_pose_CL_generation.py 
 ```
 
 ---
 
 ## 🔬 Citation
-*(Note: This work is currently under journal review. The citation will be updated upon publication.)*
 
 If you use this code or our generated datasets, please cite our research framework:
 
 ```bibtex
-@phdthesis{pan2026fingerprint,
-  title={Fingerprint Recognition Research Framework for Complex Acquisition Conditions},
-  author={Pan, Zhiyu},
-  school={Tsinghua University},
+@article{pan2026impose,
+  title={Identity-Consistent Multi-Pose Generation of Contactless Fingerprints},
+  author={Pan, Zhiyu and Guan, Xiongjun and Feng, Jianjiang and Zhou, Jie},
+  journal={arXiv preprint arXiv:xxxx.xxxxx},
   year={2026}
 }
 ```
